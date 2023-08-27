@@ -25,37 +25,6 @@ const forms = (state) => {
     const clearInputs = () => {
         inputs.forEach(input => input.value = '');
     }
-
-    forms.forEach(form => {
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            let statusMessage = document.createElement('div');
-            statusMessage.classList.add('status');
-            form.appendChild(statusMessage);
-            
-            const formData = new FormData(form);
-            if (form.getAttribute('data-calc') === "end") {
-                for (let key in state) {
-                    formData.append(key, state[key]);
-                }
-            }
-            console.log(formData);
-
-            postData('assets/server.php', formData)
-                .then(res => {
-                    console.log(res);
-                    statusMessage.textContent = message.success;
-                })
-                .catch(() => statusMessage.textContent = message.failure)
-                .finally(() => {
-                    clearInputs();
-                    setTimeout(() => {
-                        statusMessage.remove();
-                    }, 5000);
-                });
-        })
-    })
 }
 
 export default forms;
